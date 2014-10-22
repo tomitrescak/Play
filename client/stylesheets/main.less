@@ -1,0 +1,82 @@
+// General styles, e. g. for the body tag
+@import 'helpers.less';
+@import 'variables.less';
+@import 'lib/elements.less';
+
+@import url('//fonts.googleapis.com/css?family=Droid+Sans:400,700');
+
+/* -------------------
+    Main Content
+   ------------------- */
+
+body, #main {
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    font-family: "Droid Arabic Kufi", "Droid Sans", "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    color: #555555;
+    min-width: 320px;
+
+}
+
+body {
+//   background: url('/11.jpg');
+}
+
+#main {
+    margin: 0px 4px 0px 0px;
+
+    padding-top: 40px;
+    padding-bottom: 35px;
+}
+
+a {
+    color: inherit;
+    transition: 0.3s color;
+
+    &:hover {
+        color: @primaryLinkHoverColor;
+    }
+}
+
+.icon {
+    &.orange {
+        color: @html5Orange;
+    }
+}
+
+.ui.header {
+//    font-family: 'Glegoo', serif;
+}
+
+/* -------------------
+    Footer
+   ------------------- */
+.padding-wrapper.footer {
+    border-radius: 0px;
+
+    a:hover {
+        color: @secondaryLinkHoverColor;
+    }
+}
+
+/* -------------------
+    Progress bar
+   ------------------- */
+
+#iron-router-progress {
+    background-color : #988aac;
+    box-shadow       : 0 0 5px #884fbf;
+}
+
+#iron-router-progress.spinner:before {
+    border-color : #dfdfdf;
+}
+
+.footer {
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    font-size: 12px;
+    text-align: center;
+}

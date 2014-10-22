@@ -1,0 +1,39 @@
+<template name="header">
+    <div class="ui fixed inverted main menu">
+        <a class="header item" href="/"><i class="play icon"></i> {{siteTitle}}</a>
+        <a class="active red item" href="/"><i class="gamepad icon"></i> Games</a>
+        <a class="item" href="/full"><i class="laptop icon"></i> Software</a>
+        <a class="item" href="/about"><i class="folder icon"></i> Documents</a>
+
+
+        <div class="right menu">
+            {{#if currentUser}}
+                <a class="item" href="/profile"><i class="dashboard icon"></i> Dashboard</a>
+
+                {{> userView}}
+                <a class="item" id="signOut"><i class="sign out icon"></i></a>
+                <!--<div class="ui dropdown item" id="lang-dropdown">-->
+                <!--EN <i class="dropdown icon"></i>-->
+                <!--<div class="menu">-->
+                <!--<a class="item setlang" id="lang-ar">AR</a>-->
+                <!--<a class="item setlang" id="lang-cs">CS</a>-->
+                <!--<a class="item setlang" id="lang-de">DE</a>-->
+                <!--<a class="item setlang" id="lang-en">EN</a>-->
+                <!--<a class="item setlang" id="lang-es">ES</a>-->
+                <!--<a class="item setlang" id="lang-fr">FR</a>-->
+                <!--<a class="item setlang" id="lang-it">IT</a>-->
+                <!--<a class="item setlang" id="lang-pl">PL</a>-->
+                <!--<a class="item setlang" id="lang-pt">PT</a>-->
+                <!--<a class="item setlang" id="lang-ru">RU</a>-->
+                <!--<a class="item setlang" id="lang-sl">SL</a>-->
+                <!--<a class="item setlang" id="lang-sv">SV</a>-->
+                <!--<a class="item setlang" id="lang-vi">VI</a>-->
+
+                <!--</div>-->
+                <!--</div>-->
+            {{else}}
+                <a class="item" href="/"><i class="sign in icon"></i>Sign in</a>
+            {{/if}}
+        </div>
+    </div>
+</template>
