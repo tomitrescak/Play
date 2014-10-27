@@ -2,4 +2,5 @@
   "esnext": true,
   "validateIndentation": 2,
   "maximumLineLength": 120
+
 }

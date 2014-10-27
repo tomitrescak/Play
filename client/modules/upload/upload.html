@@ -1,0 +1,27 @@
+<template name="upload">
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" id="contentType" value="{{ contentType }}">
+        <input type="hidden" id="contentPlatform" value="{{ platform }}">
+        <div class="field" id="filePicker-{{platform}}">
+            <div class="ui action input">
+                <input type="text" id="_attachmentName" disabled="true">
+                <label for="uploadControl-{{platform}}" class="ui icon button btn-file">
+                    <i class="attachment basic icon"></i>
+                    <input type="file" id="uploadControl-{{platform}}" data-platform="{{platform}}" accept="{{accept}}" class="uploadControl" name="attachmentName" style="display: none">
+                </label>
+            </div>
+        </div>
+        <div class="ui grid field" id="progressHolder-{{platform}}" style="display: none;">
+            <div class="column fourteen wide">
+                <div class="ui striped progress">
+                    <div class="bar uploadProgressInfo" id="uploadInfo-{{platform}}"></div>
+                </div>
+            </div>
+            <div class="column one wide fluid">
+                <div class="ui icon red small button" id="cancelUpload">
+                    <i class="stop icon"></i>
+                </div>
+            </div>
+        </div>
+    </form>
+</template>

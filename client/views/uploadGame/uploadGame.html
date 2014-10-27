@@ -1,0 +1,191 @@
+<template name="uploadGame" xmlns="http://www.w3.org/1999/html">
+    <div class="ui page grid">
+        <div class="four wide column">
+            {{> dashboardMenu}}
+        </div>
+        <div class="twelve wide column">
+            {{>uploadGamePanel}}
+        </div>
+    </div>
+</template>
+
+<template name="uploadGamePanel">
+    <form class="ui form segment">
+        <h2 class="ui header">
+            <i class="circular emphasized upload icon teal"></i>
+            <div class="content teal">
+                {{#if id}}
+                    Modify game
+                    <div class="sub header">Modify your game and share it with the world!
+                    </div>
+                {{else}}
+                    Upload a new game
+                    <div class="sub header">Upload a new version of your game and share it with the world!
+                    </div>
+                {{/if}}
+            </div>
+        </h2>
+
+        <div class="field">
+            <label>Title</label>
+            <div class="ui left input">
+                <input type="text" placeholder="Title of your game" id="title" value="{{title}}">
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label>Genre</label>
+            <div class="ui dropdown selection fluid">
+                <input type="hidden" name="genre" id="genre" value="{{ genre }}">
+                <div class="default text">Game Genre</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item" data-value="1">Action</div>
+                    <div class="item" data-value="2">Fighting</div>
+                    <div class="item" data-value="3">Shooter</div>
+                    <div class="item" data-value="4">Adventure</div>
+                    <div class="item" data-value="5">Role-playing</div>
+                    <div class="item" data-value="6">Simulation</div>
+                    <div class="item" data-value="7">Strategy</div>
+                    <div class="item" data-value="8">Sports</div>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label>Description</label>
+            <div class="ui left input">
+                <textarea type="password" placeholder="Describe what is your game about, e.g. the story" name="description" id="description">{{description}}</textarea>
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+        </div>
+
+        {{#if id}}
+            <div class="ui horizontal icon divider">
+                <i class="circular photo icon"></i>
+            </div>
+            {{#unless $gt screens.length 2}}
+            <div class="ui yellow message">You need to upload at least three screenshots</div>
+            {{/unless}}
+
+            <div class="ui message">
+                <div class="header">Screenshots</div>
+                <label><i class="photo icon"></i> Screenshots</label>
+                <div class="ui left input">
+                    {{> upload contentType="game" platform="screenshot" }}
+                </div>
+
+                <div class="ui horizontal list">
+                    {{#each screens}}
+                        <div class="item" style="text-align: center">
+                            <a href="/uploads/{{folder}}/{{file}}"><img src="/uploads/{{../folder}}/thumbnail/{{file}}" alt="image"></a><br />
+                            <button class="ui icon button red deleteScreenshot" style="width: 20px; height: 20px; text-align: center"
+                                    data-id="{{../id}}">
+                                <i class="ui trash outline icon"></i>
+                            </button>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+
+
+
+        {{/if}}
+        {{#unless id}}
+            <button class="ui right labeled icon button">
+                <i class="right arrow icon"></i>
+                {{t9n 'next'}}
+            </button>
+        {{/unless}}
+
+        {{#if $gt screens.length 2}}
+            <div class="ui horizontal icon divider">
+                <i class="circular upload icon"></i>
+            </div>
+
+            {{#unless $gt files.length 1}}
+                <div class="ui yellow message">You need to upload at least two game builds in ".zip" format</div>
+            {{/unless}}
+
+            {{#if files.length}}
+                <div class="ui message">
+                    <div class="ui list">
+                        <div class="header">Downloads</div>
+                        {{#each files}}
+                            <div class="item">
+                                <button class="ui icon button red deleteFile" data-id="{{../id}}">
+                                    <i class="ui icon trash"></i>
+                                </button>
+                                <a href="/uploads/{{../folder}}/{{file}}">
+                                    {{file}}
+                                </a>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="field">
+                <label><i class="windows icon"></i> Windows</label>
+                <div class="ui left input">
+                    {{> upload contentType="game" platform="windows" accept="application/zip"}}
+                </div>
+            </div>
+            <div class="field">
+                <label><i class="apple icon"></i> Apple</label>
+                <div class="ui left input">
+                    {{> upload contentType="game" platform="apple" accept="application/zip"}}
+                </div>
+            </div>
+            <div class="field">
+                <label><i class="linux icon"></i> Linux</label>
+                <div class="ui left input">
+                    {{> upload contentType="game" platform="linux" accept="application/zip"}}
+                </div>
+            </div>
+            <div class="field">
+                <label><i class="browser icon"></i> Web</label>
+                <div class="ui left input">
+                    {{> upload contentType="game" platform="web" accept="application/zip"}}
+                </div>
+            </div>
+        {{/if}}
+
+        {{#if $gt files.length 1}}
+            {{#unless $eq access 'public'}}
+                <div class="ui blue submit button" id="publishGame">Publish</div>
+            {{else}}
+                <div class="ui submit button" id="saveGame"><i class="icon save"></i> Save</div>
+                <!--<div class="ui red submit button" id="deleteGame" style="float: right"><i class="icon trash"></i>Delete</div>-->
+            {{/unless}}
+        {{/if}}
+
+        <div class="ui error message">
+            <div class="header">We noticed some issues</div>
+        </div>
+
+    </form>
+
+    <div class="ui small modal" id="successModal">
+        <i class="close icon"></i>
+        <div class="header">
+            Success!
+        </div>
+        <div class="content">
+            <div class="left">
+                <i class="icon thumbs up"></i>
+            </div>
+            <div class="right">
+                Your game is now public!
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui button">
+                Okay
+            </div>
+        </div>
+    </div>
+</template>

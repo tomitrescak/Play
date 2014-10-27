@@ -1,0 +1,61 @@
+<template name="dashboard">
+    <div class="ui page grid">
+        <div class="four wide column">
+            {{> dashboardMenu}}
+        </div>
+        {{> notifications}}
+    </div>
+</template>
+
+<template name="notifications">
+    <div class="twelve wide column">
+        <h2 class="ui header">
+            <i class="circular emphasized mail icon"></i>
+            <div class="content">
+                Notifications
+                <div class="sub header">Never lose track of what is happening with your content!
+                </div>
+            </div>
+        </h2>
+
+        <div class="ui ignore info message">
+            <p><i class="icon mail"></i> Currently you have no messages.</p>
+        </div>
+    </div>
+</template>
+
+<template name="dashboardMenu">
+    <div class="ui vertical menu fluid">
+        <!--<a class="{{isActiveRoute 'dashboard'}} item">&lt;!&ndash; teal &ndash;&gt;-->
+            <!--Notifications-->
+            <!--<div class="ui label">1</div>-->
+        <!--</a>-->
+        <div class="item">
+            <i class="upload icon"></i>
+            Upload
+            <div class="menu">
+                <a href="{{pathFor 'uploadGame'}}" class="{{isActiveRoute 'uploadGame'}} item">Game</a>
+                <!--<a class="item">Videos</a>-->
+                <!--<a class="item">Documents</a>-->
+            </div>
+        </div>
+        <a class="{{isActiveRoute 'channel'}} item" href="{{pathFor 'channel' userId=$.Meteor.userId}}"><!-- teal -->
+            <i class="user icon"></i>
+            My Channel
+        </a>
+        <!--<div class="item">-->
+            <!--My Content-->
+            <!--<div class="menu">-->
+                <!--<a class="item">Games</a>-->
+                <!--&lt;!&ndash;<a class="item">Videos</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="item">Documents</a>&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<div class="ui small icon input">-->
+                <!--<input type="text" placeholder="Search your content ...">-->
+                <!--<i class="search icon"></i>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</template>
