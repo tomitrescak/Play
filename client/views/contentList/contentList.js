@@ -1,10 +1,11 @@
-Template.contentList.rendered = function() {
-  $('.ui.rating').rating({
-    interactive: false
+Template["contentListItem"].rendered = function() {
+  $('#rating-' + this.data._id).rating({
+    interactive: false,
+    initialRating: this.data.averageRoundedRating
   });
 }
 
-Template["contentList"].helpers({
+Template["contentListItem"].helpers({
   screenShot: function() {
     return this.screens[0].file;
   },

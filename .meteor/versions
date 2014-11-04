@@ -1,6 +1,5 @@
 accounts-base@1.1.2
 accounts-password@1.0.3
-alanning:package-stubber@0.0.9
 alanning:roles@1.2.13
 aldeed:collection2@2.2.0
 aldeed:simple-schema@1.0.3
@@ -60,7 +59,6 @@ reactive-var@1.0.3
 reload@1.1.1
 retry@1.0.1
 routepolicy@1.0.2
-sanjo:jasmine@0.4.16
 service-configuration@1.0.2
 session@1.0.3
 sha@1.0.1

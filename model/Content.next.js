@@ -26,6 +26,8 @@ export class Content {
       this._userRatings = doc.userRatings;
       this._version = doc.version;
       this._access = doc.access;
+      this._repository = doc.repository;
+      this._initials = doc.initials;
 
       this._contentType = doc.contentType;
       this._folder = doc.folder;
@@ -80,6 +82,19 @@ export class Content {
    * @returns {void}
    */
   set description(value) { this._description = value}
+
+  /**
+   * @property repository
+   * @returns {string}
+   */
+  get repository() {return this._repository }
+
+  /**
+   * @property repository
+   * @param {string} value
+   * @returns {void}
+   */
+  set repository(value) { this._repository = value }
 
   /**
    * @property genre
@@ -162,6 +177,15 @@ export class Content {
     this._contentType = value;
   }
 
+  get initials() {
+    //if (this._initials) {
+    //  return this._initials;
+    //}
+    //var ini = this.owner.split(' ');
+    //this._initials = (ini[0].substring(0,2) + ini[1].substring(0,2)).toLowerCase();
+    return this._initials;
+  }
+
   get folderName() {
     return this._folder.replace(/[^a-zA-Z0-9]/g, '-');
   }
@@ -172,13 +196,13 @@ export class Content {
       date.getMonth() + "/" +
       date.getDate() + "/" +
       this.contentType + "/" +
-      Meteor.user().profile.initials +"/" +
+      this.initials + "/" +
       this.folderName + "-" +
-      Meteor.userId();
+      this.ownerId;
   }
 
   get averageRoundedRating() {
-    return Math.round(this.averageRating * 10) / 10;
+    return Math.round(this.averageRating);
   }
 
   get averageRating() {
@@ -202,31 +226,50 @@ export class Content {
   }
 
   rate(rating) {
-    if (this._userRatings == null) {
-      this._userRatings = [];
+    Meteor.call('rate', this.id, rating, function(err, ok) {
+      if (err) {
+        alert(err);
+      }
+    });
+  }
+
+  review(text) {
+    Meteor.call('review', this.id, this._version, text, function(err, ok) {
+      if (err) {
+        alert(err);
+      }
+    });
+  }
+
+  serverRate(rating) {
+    if (Meteor.isServer) {
+      if (this._userRatings == null) {
+        this._userRatings = [];
+      }
+      // find actual rating
+      var currentRating = _.findWhere(this._userRatings, {owner: Meteor.userId()});
+
+      // if we rated the same we do nothing
+      if (currentRating != null && rating === currentRating.rating) return;
+
+      var ratings = this.ratings;
+      var globalRating = this.rating;
+
+      // remove previous rating
+      if (currentRating != null) {
+        Contents.update(this.id, {$pull: {userRatings: {owner: Meteor.userId()}}});
+        globalRating -= currentRating.rating;
+      } else {
+        ratings++;
+      }
+      globalRating += rating;
+
+      // update database
+      Contents.update(this.id, {
+        $set: {rating: globalRating, ratings: ratings},
+        $push: {userRatings: {owner: Meteor.userId(), rating: rating}}
+      });
     }
-    // find actual rating
-    var currentRating = _.findWhere(this._userRatings, { owner: Meteor.userId()});
-
-    // if we rated the same we do nothing
-    if (currentRating != null && rating === currentRating.rating) return;
-
-    var ratings = this.ratings;
-    var globalRating = this.rating;
-
-    // remove previous rating
-    if (currentRating != null) {
-      Contents.update(this.id, { $pull: { userRatings: { owner:  Meteor.userId() }}});
-      globalRating -= currentRating.rating;
-    } else {
-      ratings++;
-    }
-    globalRating += rating;
-
-    // update database
-    Contents.update(this.id, {$set: { rating: globalRating, ratings: ratings},
-                              $push: { userRatings: { owner: Meteor.userId(), rating: rating }}});
-
   }
 
   save() {
@@ -236,7 +279,7 @@ export class Content {
       title: this._title,
       description: this._description,
       genre: this._genre,
-      modifiedOn: this._modifiedOn
+      repository: this._repository
     };
 
     if (!this.id) {
@@ -248,18 +291,21 @@ export class Content {
       this._screens = [];
       this._folder = this.urlTitle;
 
+
       // add records also to db
       dbData['createdOn'] = this._createdOn;
       dbData['owner'] = this._owner;
       dbData['ownerId'] = this._ownerId;
       dbData['rating'] = this._rating;
       dbData['ratings'] = 0;
+      dbData['userRatings'] = [];
       dbData['files'] = this._files;
       dbData['files'] = this._files;
       dbData['screens'] = this._screens;
       dbData['version'] = this._version;
       dbData['contentType'] = this._contentType;
       dbData['folder'] = this._folder;
+      dbData['initials'] = Meteor.user().profile.initials;
 
       this._id = Contents.insert(dbData, function(err, result) {
         if (err) {
@@ -267,6 +313,7 @@ export class Content {
         }
       });
     } else {
+      dbData['modifiedOn'] = new Date();
       Contents.update({_id: this.id }, {$set: dbData});
     }
   }

@@ -19,6 +19,11 @@ Meteor.publish('singleContent', (id) => {
 });
 
 Meteor.methods({
+  rate: function(contentId, rating) {
+    // TODO: Optimise find ...
+    var content = Contents.findOne(contentId);
+    content.serverRate(rating);
+  },
   deleteFile: function(contentId, fileName) {
     var content = Contents.findOne({_id: contentId});
     var safeFileName = makeSafeFileName(fileName);

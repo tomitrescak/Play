@@ -8,3 +8,13 @@ Router.map(function () {
     controller :  HomeController
   });
 });
+
+Router.onBeforeAction(function () {
+  // all properties available in the route function
+  // are also available here such as this.params
+
+  if (!Meteor.user()) {
+    // if the user is not logged in, render the Login template
+    this.render('home');
+  }
+});

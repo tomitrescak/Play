@@ -13,12 +13,13 @@
         </div>
         <div class="ui grid field" id="progressHolder-{{platform}}" style="display: none;">
             <div class="column fourteen wide">
-                <div class="ui striped progress">
+                <div class="ui striped progress" style="position: relative">
+                    <div style="position: absolute; left: 35%" id="uploadData-{{platform}}"></div>
                     <div class="bar uploadProgressInfo" id="uploadInfo-{{platform}}"></div>
                 </div>
             </div>
             <div class="column one wide fluid">
-                <div class="ui icon red small button" id="cancelUpload">
+                <div class="ui icon red small button cancelUpload" id="cancelUpload-{{platform}}" data-platform="{{platform}}" >
                     <i class="stop icon"></i>
                 </div>
             </div>

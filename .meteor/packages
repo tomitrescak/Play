@@ -19,8 +19,6 @@ alanning:roles
 nooitaf:semantic-ui
 email
 tomi:accounts-ui-semantic-js
-sanjo:jasmine
 tomi:jquery-file-upload
 tomi:application-file-server
 mrt:moment
-

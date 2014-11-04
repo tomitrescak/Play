@@ -58,7 +58,10 @@ Router.map(function () {
     path :  '/game/:urlTitle/:id',
     template: 'game',
     waitOn: function() {
-      return Meteor.subscribe('game', this.params.id);
+      return [
+        Meteor.subscribe('game', this.params.id),
+        Meteor.subscribe('reviews', this.params.id)
+      ];
     },
     data: function() {
       return Contents.findOne()

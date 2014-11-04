@@ -10,32 +10,36 @@
 
 
                 {{#each items}}
-                    <div class="four wide column" style="overflow: hidden">
-                        <img src="/uploads/{{folder}}/thumbnail/{{screenShot}}">
-                    </div>
-                    <div class="twelve wide column">
-                        {{#if isOwner}}
-                            <div style="float: right;">
-                                <a class="mini ui button" style="float: right" href="{{pathFor 'modifyGame'}}"><i
-                                        class="icon pencil"></i>Modify</a>
-                            </div>
-                        {{/if}}
-                        <a href="{{pathFor 'game'}}" style="font-weight: bold; font-size: larger;">{{title}}</a>
-
-                        <div class="ui star rating" data-rating="{{ averageRoundedRating }}">
-                            <i class="icon"></i>
-                            <i class="icon"></i>
-                            <i class="icon"></i>
-                            <i class="icon"></i>
-                            <i class="icon"></i>
-                        </div>
-                        <div class="description" style="margin-top: 15px">{{cutText description 300}}<br/>
-                            <span style="font-size: small">{{ genreToText genre }} by {{owner}} &bull; {{ niceTime createdOn }}</span><br/>
-                        </div>
-
-                    </div>
+                    {{> contentListItem}}
                 {{/each}}
             </div>
         </div>
+    </div>
+</template>
+
+<template name="contentListItem">
+    <div class="four wide column" style="overflow: hidden">
+        <img src="/uploads/{{folder}}/thumbnail/{{screenShot}}">
+    </div>
+    <div class="twelve wide column">
+        {{#if isOwner}}
+            <div style="float: right;">
+                <a class="mini ui button" style="float: right" href="{{pathFor 'modifyGame'}}"><i
+                        class="icon pencil"></i>Modify</a>
+            </div>
+        {{/if}}
+        <a href="{{pathFor 'game'}}" style="font-weight: bold; font-size: larger;">{{title}}</a>
+
+        <div class="ui star rating" id="rating-{{ _id }}">
+            <i class="icon"></i>
+            <i class="icon"></i>
+            <i class="icon"></i>
+            <i class="icon"></i>
+            <i class="icon"></i>
+        </div>
+        <div class="description" style="margin-top: 15px">{{cutText description 300}}<br/>
+            <span style="font-size: small">{{ genreToText genre }} by {{owner}} &bull; {{ niceTime createdOn }}</span><br/>
+        </div>
+
     </div>
 </template>

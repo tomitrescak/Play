@@ -6,6 +6,7 @@ Template['uploadGamePanel'].events({
     this.title = $('#title').val();
     this.description = $('#description').val();
     this.genre = $('#genre').val();
+    this.repository = $('#repository').val();
     this.contentType = 'game';
 
     this.save();
@@ -32,7 +33,8 @@ Template['uploadGamePanel'].events({
     if (confirm('Do you really wish to delete this screenshot?')) {
       Meteor.call('deleteScreenshot',
         e.currentTarget.attributes['data-id'].value,
-        this.file, function(err, ok) {
+        this.file,
+        function(err, ok) {
           if (err) {
             alert(err);
           }

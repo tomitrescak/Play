@@ -19,6 +19,28 @@
                         <i class="icon {{platform}}"></i>
                     {{/each}}
                 </div>
+
+                <div class="ui divider">
+                </div>
+                {{#if currentUser}}
+                    <form class="ui form">
+                        <div class="field">
+                            <textarea style="height:60px; min-height: 60px; font-size: small" placeholder="Your review" id="review"></textarea>
+                        </div>
+                        <button class="ui labeled mini icon button">
+                            <i class="icon pencil"></i>
+                            Review
+                        </button>
+                    </form>
+                    <div class="ui divider">
+                    </div>
+                {{/if}}
+                <div>
+                    {{#each reviews}}
+                        <div style="font-size: small">{{review}}</div>
+                        <div style="font-size: x-small; margin-bottom: 5px">by {{owner}} {{niceTime}}</div>
+                    {{/each}}
+                </div>
             </div>
         </div>
         <div class="twelve wide column">
@@ -39,7 +61,7 @@
             <div class="ui horizontal list">
                 {{#each screens}}
                     <div class="item" style="text-align: center">
-                        <a href="/uploads/{{folder}}/{{file}}"><img src="/uploads/{{../folder}}/thumbnail/{{file}}"
+                        <a href="/uploads/{{../folder}}/{{file}}"><img src="/uploads/{{../folder}}/thumbnail/{{file}}"
                                                                     alt="image"></a><br/>
                     </div>
                 {{/each}}
