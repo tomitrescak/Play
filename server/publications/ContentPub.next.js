@@ -18,6 +18,7 @@ Meteor.publish('singleContent', (id) => {
   return Contents.find({_id: id})
 });
 
+
 Meteor.methods({
   rate: function(contentId, rating) {
     // TODO: Optimise find ...
@@ -46,5 +47,8 @@ Meteor.methods({
 
     // delete from database
     Contents.update({_id: contentId}, {$pull: { screens: { file : fileName}}})
+  },
+  viewed: function(id) {
+    Contents.update({_id: id}, {$inc : {views: 1}});
   }
 })

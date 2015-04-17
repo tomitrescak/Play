@@ -28,7 +28,7 @@ export class Content {
       this._access = doc.access;
       this._repository = doc.repository;
       this._initials = doc.initials;
-
+      this._views = doc.views;
       this._contentType = doc.contentType;
       this._folder = doc.folder;
     }
@@ -82,6 +82,12 @@ export class Content {
    * @returns {void}
    */
   set description(value) { this._description = value}
+
+  /**
+   * @property id
+   * @returns {number}
+   */
+  get views() {return this._views }
 
   /**
    * @property repository
@@ -241,6 +247,10 @@ export class Content {
     });
   }
 
+  viewed(){
+    Meteor.call('viewed', this.id);
+  }
+
   serverRate(rating) {
     if (Meteor.isServer) {
       if (this._userRatings == null) {
@@ -306,6 +316,7 @@ export class Content {
       dbData['contentType'] = this._contentType;
       dbData['folder'] = this._folder;
       dbData['initials'] = Meteor.user().profile.initials;
+      dbData['views'] = 0;
 
       this._id = Contents.insert(dbData, function(err, result) {
         if (err) {

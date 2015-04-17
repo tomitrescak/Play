@@ -48,6 +48,9 @@
                 <div class="content teal">
                     {{title}}
                     <div class="sub header">{{ genreToText genre }} by {{owner}} &bull; {{ niceTime createdOn }}
+                        {{#if views}}
+                            &bull; {{ views }} views
+                        {{/if}}
                     </div>
                 </div>
             </h2>

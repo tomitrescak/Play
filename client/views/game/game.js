@@ -25,6 +25,9 @@ Template.game.helpers({
 Template.game.rendered = function() {
   var that = this;
   var isInteractive = this.data.ownerId !== Meteor.userId();
+
+  this.data.viewed();
+
   $('.ui.rating')
     .rating({
       interactive: isInteractive,

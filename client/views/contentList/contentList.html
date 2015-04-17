@@ -38,7 +38,10 @@
             <i class="icon"></i>
         </div>
         <div class="description" style="margin-top: 15px">{{cutText description 300}}<br/>
-            <span style="font-size: small">{{ genreToText genre }} by {{owner}} &bull; {{ niceTime createdOn }}</span><br/>
+            <span style="font-size: small">{{ genreToText genre }} by {{owner}} &bull; {{ niceTime createdOn }}
+                {{#if views}}
+                    &bull; {{ views }} views
+                {{/if}}</span><br/>
         </div>
 
     </div>
