@@ -9,12 +9,8 @@ jquery
 underscore
 accounts-password
 aldeed:collection2
-mrt:iron-router-progress
-iron:router
 raix:handlebar-helpers
-velocity:html-reporter
 tomi:es6
-manuelschoebel:ms-seo
 alanning:roles
 nooitaf:semantic-ui
 email
@@ -22,3 +18,4 @@ tomi:accounts-ui-semantic-js
 tomi:jquery-file-upload
 tomi:application-file-server
 mrt:moment
+iron:router
