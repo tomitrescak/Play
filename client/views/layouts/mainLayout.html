@@ -1,0 +1,17 @@
+<template name="mainLayout">
+  <header>
+    {{> header }} {{>Template.dynamic template=header}}
+  </header>
+  <main style="padding-top: 50px">
+    <div class="content">
+      <div class="ui page grid">
+        <div class="column">
+          {{>Template.dynamic template=content}}
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    {{>Template.dynamic template=footer}}
+  </footer>
+</template>

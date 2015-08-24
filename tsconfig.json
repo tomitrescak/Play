@@ -1,0 +1,24 @@
+{
+    "version": "1.5.0-beta",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": true,
+        "removeComments": false,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "filesGlob": [
+        "**/*.ts",
+        "!./public/**/*.ts",
+        "!./packages/**"
+    ],
+    "files": [
+        "client/views/uploadGame/gameSections.ts",
+        "model/content.ts",
+        "typescript/meteor.d.ts",
+        "typescript/underscore.d.ts"
+    ]
+}

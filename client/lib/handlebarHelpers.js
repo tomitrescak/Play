@@ -1,14 +1,14 @@
-Template.registerHelper('isActiveRoute', function (siteName) {
+Template.registerHelper("isActiveRoute", function (siteName) {
   var current = Router.current();
 
-  if ('undefined' !== typeof current && current !== null) {
-    return current.route.name == siteName ? 'active' : 'not-active';
+  if ("undefined" !== typeof current && current !== null) {
+    return current.route.name == siteName ? "active" : "not-active";
   }
 
-  return 'not-active';
+  return "not-active";
 });
 
-Template.registerHelper('debug', function (optionalValue) {
+Template.registerHelper("debug", function (optionalValue) {
   if (typeof console !== "undefined" || typeof console.log !== "undefined") {
     console.log("Current Context");
     console.log("====================");
@@ -19,7 +19,7 @@ Template.registerHelper('debug', function (optionalValue) {
       console.log(optionalValue);
     }
 
-    return '';
+    return "";
   }
 
   // For IE8
@@ -29,29 +29,33 @@ Template.registerHelper('debug', function (optionalValue) {
     alert(optionalValue);
   }
 
-  return '';
+  return "";
 });
 
-Template.registerHelper('siteTitle', function(string) {
+Template.registerHelper("pathFor", function(str, params) {
+  return FlowRouter.path(str, params);
+});
+
+Template.registerHelper("siteTitle", function(string) {
   return SEO.settings.title;
 });
 
-Template.registerHelper('cutText', function(str, num) {
+Template.registerHelper("cutText", function(str, num) {
   if (str.length > num) {
-    return str.substring(0, num) + '...';
+    return str.substring(0, num) + "...";
   }
   return str;
 });
 
-Template.registerHelper('niceTime', function(date) {
+Template.registerHelper("niceTime", function(date) {
   return moment(date).fromNow();
 });
 
-Template.registerHelper('first', function(arr) {
+Template.registerHelper("first", function(arr) {
   return arr[0];
 });
 
-Template.registerHelper('genreToText', function(index) {
+Template.registerHelper("genreToText", function(index) {
   switch(parseInt(index)) {
     case 1:
       return "Action";
@@ -63,7 +67,7 @@ Template.registerHelper('genreToText', function(index) {
       return "Adventure";
     case 5:
       return "Role-playing";
-    case 6: 
+    case 6:
       return "Simulation";
     case 7:
       return "Strategy";
@@ -74,12 +78,11 @@ Template.registerHelper('genreToText', function(index) {
   }
 });
 
-Template.registerHelper('summarize', function(string) {
+Template.registerHelper("summarize", function(string) {
   var cleanString = _(string).stripTags();
   return _(cleanString).truncate(140);
 });
 
-Template.registerHelper('parentData', function(parentContext, item) {
+Template.registerHelper("parentData", function(parentContext, item) {
   return parentContext[item];
 });
-

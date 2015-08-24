@@ -3,5 +3,5 @@
 // Also creates files in server/publications and client/subscriptions
 
 makeSafeFileName = function(name) {
-  return name.replace(/\//g, '-');
+  return name.replace(/\.\./g, '');
 }

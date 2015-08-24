@@ -1,48 +1,72 @@
 <template name="contentList">
-    <div class="ui page grid">
-        <div class="column">
-            <h3 class="ui dividing header">
-                <i class="browser icon"></i>
-                {{title}}
-            </h3>
 
-            <div class="ui page grid">
+  <h3 class="ui dividing header">
+    <i class="browser icon"></i> Content
+  </h3>
 
+  <div class="ui list">
+    {{#if itemsReady}}
+      {{#if items.count}}
 
-                {{#each items}}
-                    {{> contentListItem}}
-                {{/each}}
-            </div>
+        {{#each items}}
+          <div class="item">
+            {{> contentListItem}}
+          </div>
+        {{/each}}
+      {{else}}
+        <div class="item">
+          You have no content ...
         </div>
+      {{/if}}
+    {{else}}
+      <div class="item">
+        Loading items ...
+      </div>
+    {{/if}}
+
+    <div class="item">
+      <a href="{{pathFor 'modifyGame'}}" class="ui primary icon labeled button">
+        <i class="icon plus"></i>
+        Add content
+      </a>
     </div>
+  </div>
+
 </template>
 
 <template name="contentListItem">
-    <div class="four wide column" style="overflow: hidden">
-        <img src="/uploads/{{folder}}/thumbnail/{{screenShot}}">
-    </div>
-    <div class="twelve wide column">
-        {{#if isOwner}}
-            <div style="float: right;">
-                <a class="mini ui button" style="float: right" href="{{pathFor 'modifyGame'}}"><i
-                        class="icon pencil"></i>Modify</a>
-            </div>
-        {{/if}}
-        <a href="{{pathFor 'game'}}" style="font-weight: bold; font-size: larger;">{{title}}</a>
 
-        <div class="ui star rating" id="rating-{{ _id }}">
-            <i class="icon"></i>
-            <i class="icon"></i>
-            <i class="icon"></i>
-            <i class="icon"></i>
-            <i class="icon"></i>
-        </div>
-        <div class="description" style="margin-top: 15px">{{cutText description 300}}<br/>
-            <span style="font-size: small">{{ genreToText genre }} by {{owner}} &bull; {{ niceTime createdOn }}
-                {{#if views}}
-                    &bull; {{ views }} views
-                {{/if}}</span><br/>
-        </div>
+  <div style="float: left; margin-right: 12px">
+    {{#if screenShot}}
+      <img src="/upload/{{screenShot}}" style="max-width: 100px; max-height:100px">
+    {{else}}
+      <img src="/images/wireframe.png" style="width: 100px">
+    {{/if}}
+  </div>
+  <div>
+    {{#if isOwner}}
+      <div style="float: right;">
+        <a class="ui button" style="float: right" href="{{ pathFor 'modifyGame' modifyGameParams }}"><i class="icon pencil"></i>Modify</a>
+      </div>
+      {{/if}}
+      <a href="{{pathFor 'game' modifyGameParams}}" style="font-weight: bold; font-size: larger;">{{title}}</a>
+
+      <div class="ui star rating" id="rating-{{ _id }}">
+        <i class="icon"></i>
+        <i class="icon"></i>
+        <i class="icon"></i>
+        <i class="icon"></i>
+        <i class="icon"></i>
+      </div>
+      <div class="description" style="margin-top: 15px">{{cutText description 300}}
+        <br/>
+        <span style="font-size: small">{{ genreToText genre }} by {{owner}} &bull; {{ niceTime createdOn }}
+          {{#if views}}
+            &bull; {{ views }} views
+          {{/if}}
+        </span>
+        <br/>
+      </div>
 
     </div>
 </template>

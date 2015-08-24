@@ -4,18 +4,19 @@
 # but you can also edit it by hand.
 
 standard-app-packages
-less
-jquery
-underscore
 accounts-password
 aldeed:collection2
 raix:handlebar-helpers
-tomi:es6
 alanning:roles
-nooitaf:semantic-ui
 email
 tomi:accounts-ui-semantic-js
-tomi:jquery-file-upload
-tomi:application-file-server
-mrt:moment
-iron:router
+tomi:upload-server
+tomi:upload-jquery
+chuangbo:marked
+kadira:flow-router
+kadira:blaze-layout
+momentjs:moment
+meteorhacks:subs-manager
+reactive-var
+semantic:ui
+flemay:less-autoprefixer

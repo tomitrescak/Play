@@ -1,0 +1,12 @@
+<template name="onlyIfLoggedIn">
+  {{#if authInProcess}}
+    <p>Loading ...</p>
+  {{else}}
+    {{#if canShow}}
+      {{> UI.contentBlock }}
+    {{else}}
+      <p>You are not authorized to view this page.</p>
+      <p>Please <a href="/">login</a> to view this page</p>
+    {{/if}}
+  {{/if}}
+</template>

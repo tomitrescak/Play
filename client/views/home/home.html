@@ -1,20 +1,31 @@
 <template name="home">
-    <img src="mainBack.jpg">
-    <div class="ui stackable page grid">
-        <div class="ten wide column">
+  {{#if itemsReady}}
+    {{#if currentUser}}
+      {{> contentList}}
+    {{else}}
+      <img src="mainBack.jpg" style="position: fixed; top: 10px; left: 0px">
+      <div class="ui form">
+        <div class="fields">
+          <div class="ten wide field">
             <div class="ui large message">
-                <h1 class="ui huge header">Welcome to Play!</h1>
-                <p>
-                    Check out the content carefully crafted by your fellow colleagues.
-                    If you feel like resting, here you can find many free games for all ages!
-                    If you feel like studying, browse useful content that will make your life easier!
-                    If you find a game or anything that you like, please leave us a comment and share it with your friends!
-                </p>
+              <h1 class="ui huge header">Welcome to Play!</h1>
+              <p>
+                Check out the content carefully crafted by your fellow colleagues. If you feel like resting, here you can find many free games for all ages! If you feel like studying, browse useful content that will make your life easier! If you find a game or anything
+                that you like, please leave us a comment and share it with your friends!
+              </p>
             </div>
-        </div>
-        <div class="six wide column">
+          </div>
+          <div class="six wide field ui segment" style="padding: 12px;">
             {{> loginView}}
+          </div>
         </div>
+      </div>
+
+    {{/if}}
+  {{else}}
+    <div>
+      Loading ...
     </div>
+  {{/if}}
 
 </template>

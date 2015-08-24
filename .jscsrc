@@ -1,0 +1,6 @@
+{
+  "validateQuoteMarks": "\"",
+  "validateIndentation": 2,
+  "maximumLineLength": 120,
+  "requireTrailingComma": null
+}

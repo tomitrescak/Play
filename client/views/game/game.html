@@ -1,11 +1,22 @@
+<template name="gameLoader">
+    {{#if itemsReady}} 
+        {{> game gameItem}} 
+    {{else}}
+        <div>
+            Loading ...
+        </div>
+    {{/if}}
+</template>
+
 <template name="game">
+    {{ debug }}
     <div class="ui page grid">
         <div class="four wide column">
             <div style="text-align: center">
                 <img src="/uploads/{{../folder}}/thumbnail/{{icon}}">
             </div>
             <div class="ui message">
-                <div class="ui rating"  data-rating="{{roundedRating}}">
+                <div class="ui rating" data-rating="{{roundedRating}}">
                     <i class="icon"></i>
                     <i class="icon"></i>
                     <i class="icon"></i>
@@ -16,29 +27,27 @@
                 <div class="ui divider"></div>
                 <div style="text-align: center">
                     {{#each files}}
-                        <i class="icon {{platform}}"></i>
-                    {{/each}}
+                    <i class="icon {{platform}}"></i> this. {{/each}}
                 </div>
 
                 <div class="ui divider">
                 </div>
                 {{#if currentUser}}
-                    <form class="ui form">
-                        <div class="field">
-                            <textarea style="height:60px; min-height: 60px; font-size: small" placeholder="Your review" id="review"></textarea>
-                        </div>
-                        <button class="ui labeled mini icon button">
-                            <i class="icon pencil"></i>
-                            Review
-                        </button>
-                    </form>
-                    <div class="ui divider">
+                <form class="ui form">
+                    <div class="field">
+                        <textarea style="height:60px; min-height: 60px; font-size: small" placeholder="Your review" id="review"></textarea>
                     </div>
+                    <button class="ui labeled mini icon button">
+                        <i class="icon pencil"></i> Review
+                    </button>
+                </form>
+                <div class="ui divider">
+                </div>
                 {{/if}}
                 <div>
                     {{#each reviews}}
-                        <div style="font-size: small">{{review}}</div>
-                        <div style="font-size: x-small; margin-bottom: 5px">by {{owner}} {{niceTime}}</div>
+                    <div style="font-size: small">{{review}}</div>
+                    <div style="font-size: x-small; margin-bottom: 5px">by {{owner}} {{niceTime}}</div>
                     {{/each}}
                 </div>
             </div>
@@ -63,10 +72,10 @@
 
             <div class="ui horizontal list">
                 {{#each screens}}
-                    <div class="item" style="text-align: center">
-                        <a href="/uploads/{{../folder}}/{{file}}"><img src="/uploads/{{../folder}}/thumbnail/{{file}}"
-                                                                    alt="image"></a><br/>
-                    </div>
+                <div class="item" style="text-align: center">
+                    <a href="/uploads/{{../folder}}/{{file}}"><img src="/uploads/{{../folder}}/thumbnail/{{file}}" alt="image"></a>
+                    <br/>
+                </div>
                 {{/each}}
             </div>
 
@@ -78,12 +87,12 @@
                 <div class="ui list">
                     <div class="header">Downloads</div>
                     {{#each files}}
-                        <div class="item">
-                            <i class="icon {{platform}}"></i>
-                            <a href="/uploads/{{../folder}}/{{file}}">
+                    <div class="item">
+                        <i class="icon {{platform}}"></i>
+                        <a href="/uploads/{{../folder}}/{{file}}">
                                 {{file}}
                             </a>
-                        </div>
+                    </div>
                     {{/each}}
                 </div>
             </div>

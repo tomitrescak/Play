@@ -1,0 +1,13 @@
+<template name="markdownEditor">
+  <div class="field">
+    {{#if label}}
+      <label>{{ label }}</label>
+    {{/if}}
+    <textarea placeholder="{{placeholder}}" id="{{id}}">{{ content }}</textarea>
+  </div>
+  <div class="ui default right floated labeled icon preview button">
+    <i class="icon search"></i> Preview
+  </div>
+  <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank" class="ui right floated primary icon button"><i class="help icon"></i></a>
+  <div style="clear: both"></div>
+</template>

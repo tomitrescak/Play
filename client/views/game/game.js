@@ -1,9 +1,29 @@
+Template.gameLoader.onCreated(function() {
+  var self = this;
+  self.ready = new ReactiveVar();
+  self.autorun(function() {
+    var handle1 = PostSubs.subscribe("game", FlowRouter.getParam("_id"));
+    var handle2 = PostSubs.subscribe("reviews", FlowRouter.getParam("_id"));
+    self.ready.set(handle1.ready() && handle2.ready());
+  });
+});
+
+Template.gameLoader.helpers({
+  itemsReady: function() {
+    return Template.instance().ready.get();
+  },
+  gameItem: function() {
+    return new Content(Contents.findOne(FlowRouter.getParam("_id")));
+  }
+});
+
+
 Template.game.events({
   'submit form': function(e) {
     e.preventDefault();
     this.review($('#review').val());
   }
-})
+});
 
 Template.game.helpers({
   reviews: function() {

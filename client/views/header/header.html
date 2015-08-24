@@ -1,17 +1,18 @@
 <template name="header">
     <div class="ui fixed inverted main menu">
-        <a class="header item" href="/"><i class="play icon"></i> {{siteTitle}}</a>
-        <a class="item" href="{{pathFor 'games'}}"><i class="gamepad icon"></i> Games</a>
+        <a class="header item" href="/"><i class="play icon"></i>Play</a>
+        <a class="item" href="{{ pathFor 'games'}}"><i class="gamepad icon"></i> Games</a>
         <!--<a class="item" href="/full"><i class="laptop icon"></i> Software</a>-->
         <!--<a class="item" href="/about"><i class="folder icon"></i> Documents</a>-->
 
 
         <div class="right menu">
             {{#if currentUser}}
-                <a class="item" href="/dashboard"><i class="dashboard icon"></i> Dashboard</a>
+                <!-- <a class="item" href="/dashboard"><i class="dashboard icon"></i> Dashboard</a> -->
 
-                {{> userView}}
-                <a class="item" id="signOut"><i class="sign out icon"></i></a>
+                {{> userView showUserName=true hideProfile=true }}
+
+                <!-- {{> userView}} -->
                 <!--<div class="ui dropdown item" id="lang-dropdown">-->
                 <!--EN <i class="dropdown icon"></i>-->
                 <!--<div class="menu">-->
@@ -32,7 +33,7 @@
                 <!--</div>-->
                 <!--</div>-->
             {{else}}
-                <a class="item" href="/"><i class="sign in icon"></i>Sign in</a>
+                <!-- <a class="item" href="/"><i class="sign in icon"></i>Sign in</a> -->
             {{/if}}
         </div>
     </div>
