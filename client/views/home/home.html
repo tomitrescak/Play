@@ -1,7 +1,7 @@
 <template name="home">
   {{#if itemsReady}}
     {{#if currentUser}}
-      {{> contentList}}
+      {{> contentList userOwned=true}}
     {{else}}
       <img src="mainBack.jpg" style="position: fixed; top: 10px; left: 0px">
       <div class="ui form">

@@ -5,6 +5,10 @@ FlowRouter.route("/blog/:postId", {
   }
 });
 
+FlowRouter.route("/upload/:folder/:file", {
+  name: "upload"
+});
+
 FlowRouter.route("/game/modify/:urlTitle?/:_id?", {
   name: "modifyGame",
   action: function(params) {
@@ -16,6 +20,13 @@ FlowRouter.route("/game/:urlTitle?/:_id?", {
   name: "game",
   action: function(params) {
     BlazeLayout.render("mainLayout", { content: "gameLoader" });
+  }
+});
+
+FlowRouter.route("/games", {
+  name: "games",
+  action: function(params) {
+    BlazeLayout.render("mainLayout", { content: "contentList" });
   }
 });
 

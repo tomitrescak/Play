@@ -2,3 +2,12 @@
   max-width: 50px;
   max-height: 50px;
 }
+
+.specification textarea {
+  max-height: 600px!important;
+  height: 350px;
+}
+
+.leftButton {
+  float: left!important;
+}

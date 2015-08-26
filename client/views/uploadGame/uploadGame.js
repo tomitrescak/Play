@@ -42,26 +42,25 @@ Template.uploadGame.helpers({
 
 Template.uploadGamePanel.helpers({
   overviewOrTemplate: function() {
-    console.log(this.specification);
-    return this.specification.overview ? this.specification.overview : overviewTemplate;
+    return this._id ? this.specification.overview : overviewTemplate;
   },
   featureSetOrTemplate: function() {
-    return this.specification.featureSet ? this.specification.featureSet : featureSetTemplate;
+    return this._id ? this.specification.featureSet : featureSetTemplate;
   },
   gameWorldOrTemplate: function() {
-    return this.specification.gameWorld ? this.specification.gameWorld : gameWorldTemplate;
+    return this._id ? this.specification.gameWorld : gameWorldTemplate;
   },
   gamePlayOrTemplate: function() {
-    return this.specification.gamePlay ? this.specification.gamePlay : gamePlayTemplate;
+    return this._id ? this.specification.gamePlay : gamePlayTemplate;
   },
   singlePlayerGameOrTemplate: function() {
-    return this.specification.singlePlayerGame ? this.specification.singlePlayerGame : singlePlayerGameTemplate;
+    return this._id ? this.specification.singlePlayerGame : singlePlayerGameTemplate;
   },
   multiPlayerGameOrTemplate: function() {
-    return this.specification.multiPlayerGame ? this.specification.multiPlayerGame : multiPlayerGameTemplate;
+    return this._id ? this.specification.multiPlayerGame : multiPlayerGameTemplate;
   },
   extrasOrTemplate: function() {
-    return this.specification.extras ? this.specification.extras : extrasTemplate;
+    return this._id ? this.specification.extras : extrasTemplate;
   },
   uploadFormData: function(platform) {
     return {
@@ -92,6 +91,24 @@ Template.uploadGamePanel.helpers({
         self.contentUploaded(context.data.contentType, fileInfo.path);
       }
     }
+  },
+  webFileCallbacks: function() {
+    var self = this;
+    return {
+      finished: function(index, fileInfo, context) {
+        Meteor.call("processWebFile", self._id, fileInfo.path, function(err, success) {
+          if (err) {
+            alert(err);
+          } else {
+            alert("Your web file has been processed successfuly!");
+            self.contentUploaded(context.data.contentType, fileInfo.path);
+          }
+        });
+      }
+    }
+  },
+  canPublish: function() {
+    return this.files.length > 1 && this.screens.length > 2;
   }
 });
 
@@ -138,13 +155,15 @@ Template["uploadGamePanel"].events({
   //   this.save();
   // },
   "click #publishGame": function() {
-    if (this.state === "public") {
-
+    if (this.access === "public") {
+      this.changeAccess("private");
+      alert("Your game is now private and not visible to others ;(");
     } else {
       this.changeAccess("public");
+      alert("Your game is now public for everyone to enjoy!")
     }
-    $("#successModal")
-      .modal("show");
+    // $("#successModal")
+    //   .modal("show");
   },
   "click .deleteImage": function(e) {
     e.preventDefault();
@@ -220,3 +239,16 @@ Template["uploadGamePanel"].rendered = function() {
   $(".ui.dropdown").dropdown();
   $(".menu .item").tab();
 };
+
+Template.imageList.events({
+  "click .imageLink": function() {
+    $("#imageHolder").attr("src", "/upload/" + this.file);
+    //$("#imageDescription").html(this.file);
+
+    $("#imageModal")
+      .modal({
+        blurring: true
+      })
+      .modal("show");
+  }
+})

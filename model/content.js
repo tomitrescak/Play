@@ -33,6 +33,7 @@ var Content = (function () {
             this._contentType = doc.contentType;
             this._folder = doc.folder;
             this.specification = doc.specification ? doc.specification : {};
+            this.webBuild = doc.webBuild;
         }
         else {
             this.specification = {};
@@ -249,8 +250,14 @@ var Content = (function () {
     Content.prototype.changeAccess = function (access) {
         Contents.update(this.id, { $set: { access: access } });
     };
-    Content.prototype.rate = function (rating) {
-        Meteor.call('rate', this.id, rating, function (err, result) {
+    Content.prototype.rate = function (userRating) {
+        if (userRating == 0) {
+            return;
+        }
+        if (_.any(this._userRatings, function (rating) { return rating.owner == Meteor.userId() && rating.rating == userRating; })) {
+            return;
+        }
+        Meteor.call('rate', this.id, userRating, function (err, result) {
             if (err) {
                 alert(err);
             }

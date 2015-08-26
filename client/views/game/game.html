@@ -1,103 +1,234 @@
 <template name="gameLoader">
-    {{#if itemsReady}} 
-        {{> game gameItem}} 
-    {{else}}
-        <div>
-            Loading ...
-        </div>
-    {{/if}}
+  {{#if itemsReady}}
+    {{> game gameItem}}
+  {{else}}
+    <div>
+      Loading ...
+    </div>
+  {{/if}}
 </template>
 
 <template name="game">
-    {{ debug }}
-    <div class="ui page grid">
-        <div class="four wide column">
-            <div style="text-align: center">
-                <img src="/uploads/{{../folder}}/thumbnail/{{icon}}">
-            </div>
-            <div class="ui message">
-                <div class="ui rating" data-rating="{{roundedRating}}">
-                    <i class="icon"></i>
-                    <i class="icon"></i>
-                    <i class="icon"></i>
-                    <i class="icon"></i>
-                    <i class="icon"></i>
-                </div>
-                <span style="font-size: smaller">{{ averageRoundedRating }} / {{ratings}} rating(s)</span>
-                <div class="ui divider"></div>
-                <div style="text-align: center">
-                    {{#each files}}
-                    <i class="icon {{platform}}"></i> this. {{/each}}
-                </div>
+  <div class="ui form">
+    <div class="fields">
+      <div class="four wide field">
+        <div style="text-align: center">
+          {{> screenshot }}
+        </div>
+        <div class="ui message" style="padding: 12px;">
+          <div style="text-align: center">
+            <div class="ui star rating" data-rating="{{roundedRating}}" data-max-rating="5"></div>
+            <span style="font-size: smaller">{{ averageRoundedRating }} / {{ratings}} rating(s)</span>
+          </div>
+          <div style="text-align: center; margin-top: 6px">
+            {{#each files}}
+              <i class="icon {{platform}}"></i>
+            {{/each}}
+          </div>
 
-                <div class="ui divider">
-                </div>
-                {{#if currentUser}}
-                <form class="ui form">
-                    <div class="field">
-                        <textarea style="height:60px; min-height: 60px; font-size: small" placeholder="Your review" id="review"></textarea>
-                    </div>
-                    <button class="ui labeled mini icon button">
-                        <i class="icon pencil"></i> Review
-                    </button>
-                </form>
-                <div class="ui divider">
-                </div>
+          {{#if currentUser}}
+            <form class="ui form" style="margin-top: 12px">
+              <div class="field">
+                <textarea style="height:60px; min-height: 60px; font-size: small" placeholder="Your review" id="review"></textarea>
+              </div>
+              <button class="ui labeled mini icon button" style="margin-top: 6px">
+                <i class="icon pencil"></i> Review
+              </button>
+            </form>
+            <div class="ui divider">
+            </div>
+          {{/if}}
+          <div>
+            {{#each reviews}}
+              <div style="font-size: small">{{review}}</div>
+              <div style="font-size: x-small; margin-bottom: 5px">by {{owner}} {{niceTime}}</div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+      <div class="twelve wide field">
+        <h2 class="ui header">
+          <div class="content teal">
+            {{title}}
+            <div class="sub header">{{ genreToText genre }} by {{owner}} &bull; {{ niceTime createdOn }}
+              {{#if views}}
+                &bull; {{ views }} views
+              {{/if}}
+              &middot;
+                {{#if $eq access 'public'}}<div class="ui green label">Public</div>
+                {{else}}<div class="ui orange label">Private</div>
                 {{/if}}
-                <div>
-                    {{#each reviews}}
-                    <div style="font-size: small">{{review}}</div>
-                    <div style="font-size: x-small; margin-bottom: 5px">by {{owner}} {{niceTime}}</div>
-                    {{/each}}
-                </div>
             </div>
+          </div>
+        </h2>
+
+        <p>{{description}}</p>
+
+        <div class="ui horizontal icon divider">
+          <i class="circular photo icon"></i>
         </div>
-        <div class="twelve wide column">
-            <h2 class="ui header">
-                <div class="content teal">
-                    {{title}}
-                    <div class="sub header">{{ genreToText genre }} by {{owner}} &bull; {{ niceTime createdOn }}
-                        {{#if views}}
-                            &bull; {{ views }} views
-                        {{/if}}
-                    </div>
-                </div>
-            </h2>
 
-            <p>{{description}}</p>
-
-            <div class="ui horizontal icon divider">
-                <i class="circular photo icon"></i>
+        <div class="ui horizontal list">
+          {{#each screens}}
+            <div class="item" style="text-align: center">
+              <a class="imageLink">
+                <img src="/upload/{{file}}" alt="image" style="max-width: 100px; max-height: 100px">
+              </a>
+              <br/>
             </div>
-
-            <div class="ui horizontal list">
-                {{#each screens}}
-                <div class="item" style="text-align: center">
-                    <a href="/uploads/{{../folder}}/{{file}}"><img src="/uploads/{{../folder}}/thumbnail/{{file}}" alt="image"></a>
-                    <br/>
-                </div>
-                {{/each}}
-            </div>
-
-            <div class="ui horizontal icon divider">
-                <i class="circular upload icon"></i>
-            </div>
-
-            <div class="ui message">
-                <div class="ui list">
-                    <div class="header">Downloads</div>
-                    {{#each files}}
-                    <div class="item">
-                        <i class="icon {{platform}}"></i>
-                        <a href="/uploads/{{../folder}}/{{file}}">
-                                {{file}}
-                            </a>
-                    </div>
-                    {{/each}}
-                </div>
-            </div>
+          {{/each}}
         </div>
+        {{ debug }}
+        {{#if webBuild }}
+          <div class="ui horizontal icon divider">
+            <i class="circular game icon"></i>
+          </div>
+
+          {{> UnityPlayer}}
+        {{/if}}
+
+        <div class="ui horizontal icon divider">
+          <i class="circular upload icon"></i>
+        </div>
+
+        <div class="ui message">
+          <div class="ui list">
+            <div class="header">Downloads</div>
+            {{#each files}}
+              <div class="item">
+                <i class="icon {{platform}}"></i>
+                <div class="content">
+                  <a href="/upload/{{file}}" target="_blank">{{file}}</a>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+
+        {{#with specification}}
+
+          <div class="ui horizontal icon divider">
+            <i class="circular edit icon"></i>
+          </div>
+
+          <div class="field">
+            <div class="ui top attached tabular menu">
+              <a class="item active" data-tab="tabOverview">Overview</a>
+              <a class="item" data-tab="tabFeature">Features</a>
+              {{#if gameWorld}}
+              <a class="item" data-tab="tabGW">World</a>
+              {{/if}}
+              {{#if gamePlay}}
+              <a class="item" data-tab="tabGP">Gameplay</a>
+              {{/if}}
+              {{#if singlePlayerGame}}
+              <a class="item" data-tab="tabSP">Single Player</a>
+              {{/if}}
+              {{#if multiPlayerGame}}
+              <a class="item" data-tab="tabMP">Multi Player</a>
+              {{/if}}
+              {{#if extras}}
+              <a class="item" data-tab="tabExtras">Extras</a>
+              {{/if}}
+            </div>
+            <div class="ui bottom attached tab segment active" data-tab="tabOverview">
+              {{#markdown}}{{overview}}{{/markdown}}
+            </div>
+
+            <div class="ui bottom attached tab segment" data-tab="tabFeature">
+              {{#markdown}}{{featureSet}}{{/markdown}}
+            </div>
+
+            <div class="ui bottom attached tab segment" data-tab="tabGW">
+              {{#if gameWorld}}
+                {{#markdown}}{{gameWorld}}{{/markdown}}
+              {{/if}}
+            </div>
+
+            <div class="ui bottom attached tab segment" data-tab="tabGP">
+              {{#markdown}}{{gamePlay}}{{/markdown}}
+            </div>
+
+            <div class="ui bottom attached tab segment" data-tab="tabSP">
+              {{#markdown}}{{singlePlayerGame}}{{/markdown}}
+            </div>
+
+            <div class="ui bottom attached tab segment" data-tab="tabMP">
+              {{#markdown}}{{multiPlayerGame}}{{/markdown}}
+            </div>
+
+            <div class="ui bottom attached tab segment" data-tab="tabExtras">
+              {{#markdown}}{{extras}}{{/markdown}}
+            </div>
+          </div>
+
+          <!-- {{#markdown}}{{overview}}{{/markdown}}
+          {{#markdown}}{{featureSet}}{{/markdown}}
+          {{#if gameWorld}}
+            {{#markdown}}{{gameWorld}}{{/markdown}}
+          {{/if}}
+          {{#if gamePlay}}
+            {{#markdown}}{{gamePlay}}{{/markdown}}
+          {{/if}}
+          {{#if singlePlayerGame}}
+            {{#markdown}}{{singlePlayerGame}}{{/markdown}}
+          {{/if}}
+          {{#if multiPlayerGame}}
+            {{#markdown}}{{multiPlayerGame}}{{/markdown}}
+          {{/if}}
+          {{#if extras}}
+            {{#markdown}}{{extras}}{{/markdown}}
+          {{/if}} -->
+        {{/with}}
+
+      </div>
     </div>
+  </div>
 
+  {{> imageModal }}
+</template>
 
+<template name="UnityPlayer">
+  <style type="text/css">
+  <!--
+  div.broken,
+  div.missing {
+    margin: auto;
+    position: relative;
+    top: 50%;
+    width: 193px;
+  }
+  div.broken a,
+  div.missing a {
+    height: 63px;
+    position: relative;
+    top: -31px;
+  }
+  div.broken img,
+  div.missing img {
+    border-width: 0px;
+  }
+  div.broken {
+    display: none;
+  }
+  div#unityPlayer {
+    cursor: default;
+    width: 100%;
+  }
+  -->
+  </style>
+  <div class="content">
+    <div id="unityPlayer">
+      <div class="missing">
+        <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
+          <img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+        </a>
+      </div>
+      <div class="broken">
+        <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now! Restart your browser after install.">
+          <img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
+        </a>
+      </div>
+    </div>
+  </div>
 </template>

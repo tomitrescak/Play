@@ -5,7 +5,7 @@ interface IContentFile {
 }
 
 interface IUserRating {
-  userId: string;
+  owner: string;
   rating: number
 }
 
@@ -42,6 +42,7 @@ interface IContent {
   views: number;
   contentType: string;
   folder: string;
+  webBuild: string;
 }
 
 declare var Contents: Mongo.Collection<IContent>;
@@ -76,6 +77,7 @@ class Content {
   private _contentType: string;
   private _folder: string;
   specification: ISpecification;
+  webBuild: string;
 
   /**
    * @param {{title:string, description:string}} doc
@@ -106,6 +108,7 @@ class Content {
       this._contentType = doc.contentType;
       this._folder = doc.folder;
       this.specification = doc.specification ? doc.specification : {};
+      this.webBuild = doc.webBuild;
     } else {
       this.specification = {};
     }
@@ -267,8 +270,16 @@ class Content {
     Contents.update(this.id, {$set: { access: access }});
   }
 
-  rate(rating: number) {
-    Meteor.call('rate', this.id, rating, function(err: Meteor.Error, result: any) {
+  rate(userRating: number) {
+    if (userRating == 0) {
+      return;
+    }
+
+    if (_.any(this._userRatings, (rating: IUserRating) => rating.owner == Meteor.userId() && rating.rating == userRating)) {
+      return;
+    }
+
+    Meteor.call('rate', this.id, userRating, function(err: Meteor.Error, result: any) {
       if (err) {
         alert(err);
       }

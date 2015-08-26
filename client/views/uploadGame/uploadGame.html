@@ -154,11 +154,12 @@
             {{#each files}}
 
               <div class="item">
-                <a href="/uploads/{{file}}">{{file}}</a>
-                <div class="right floated content">
-                  <button class="ui icon button red deleteFile" data-id="{{../id}}">
-                    <i class="ui icon trash"></i>
-                  </button>
+                <button class="ui right floated icon button red deleteFile" data-id="{{../id}}">
+                  <i class="ui icon trash"></i>
+                </button>
+                <i class="icon {{platform}}"></i>
+                <div class="content">
+                  <a href="/upload/{{file}}" target="_self">{{file}}</a>
                 </div>
               </div>
             {{/each}}
@@ -187,16 +188,17 @@
       <div class="field">
         <label><i class="browser icon"></i> Web</label>
         <div class="ui left input">
-          {{> upload_semanticUI contentType="web" formData=uploadFormData callbacks=fileCallbacks game=this fileTypes="*.zip"}}
+          {{> upload_semanticUI contentType="web" formData=uploadFormData callbacks=webFileCallbacks game=this fileTypes="*.zip"}}
         </div>
       </div>
     {{/if}}
 
-
     {{#if canPublish}}
-      {{#unless $eq access 'public'}}
-        <div class="ui blue submit button" id="publishGame">Publish</div>
-      {{/unless}}
+      {{#if $eq access 'public'}}
+        <div class="ui orange submit button" id="publishGame">Remove Publication</div>
+      {{else}}
+        <div class="ui green submit button" id="publishGame">Publish</div>
+      {{/if}}
     {{/if}}
     <div class="ui submit right floated primary submit button" id="saveGame"><i class="icon save"></i> Save</div>
 
@@ -212,21 +214,25 @@
       Success!
     </div>
     <div class="content">
-      <div class="left">
-        <i class="icon thumbs up"></i>
-      </div>
       <div class="right">
         Your game is now public!
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui button">
-        Okay
       </div>
     </div>
   </div>
 
   {{> modal }}
+  {{> imageModal }}
+</template>
+
+<template name="imageModal">
+  <div class="ui basic modal" id="imageModal">
+    <div class="content" style="text-align: center">
+      <img class="image" id="imageHolder" style="display: inline">
+      <!-- <div class="description">
+        <p id="imageDescription"></p>
+      </div> -->
+    </div>
+  </div>
 </template>
 
 <template name="imageList">
@@ -239,9 +245,7 @@
           </button>
         </div>
         <img class="ui avatar image" src="/upload/{{file}}">
-        <a class="content" style="overflow: hidden" href="{{ file }}">
-        {{ file }}
-      </a>
+        <a class="content imageLink" style="overflow: hidden">/upload/{{ file }}</a>
       </div>
     {{/each}}
   </div>

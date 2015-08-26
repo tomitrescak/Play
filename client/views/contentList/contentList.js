@@ -11,18 +11,26 @@ Template.contentList.onCreated(function() {
   var self = this;
   self.ready = new ReactiveVar();
   self.autorun(function() {
-    var handle = PostSubs.subscribe("channelData", Meteor.userId());
-    self.ready.set(handle.ready());
+    if (self.data.userOwned) {
+      var handle = PostSubs.subscribe("channelData", getUserId());
+      self.ready.set(handle.ready());
+    } else {
+      var handle = PostSubs.subscribe("games");
+      self.ready.set(handle.ready());
+    }
   });
 });
 
 Template.contentList.helpers({
   items: function() {
-    var userId = Meteor.userId();
-    if (FlowRouter.getParam("userId")) {
-      userId = FlowRouter.getParam("userId");
+    // var userId = Meteor.userId();
+    // if (FlowRouter.getParam("userId")) {
+    //   userId = FlowRouter.getParam("userId");
+    // }
+    if (this.userOwned) {
+      return Contents.find({ ownerId: getUserId() }, {sort: {rating: -1}});
     }
-    return Contents.find({ ownerId: Meteor.userId() }, {sort: {rating: -1}});
+    return Contents.find({}, {sort: {rating: -1}});
   },
   itemsReady: function() {
     return Template.instance().ready.get();
@@ -37,12 +45,6 @@ Template.contentListItem.rendered = function() {
 };
 
 Template.contentListItem.helpers({
-  screenShot: function() {
-    if (this.screens.length > 0) {
-      return this.screens[0].file;
-    }
-    return null;
-  },
   isOwner: function() {
     return this.ownerId == Meteor.userId();
   },
@@ -51,5 +53,14 @@ Template.contentListItem.helpers({
       _id: this._id,
       urlTitle: this.title.replace(/\s/, "-")
     }
+  }
+});
+
+Template.screenshot.helpers({
+  screenShot: function() {
+    if (this.screens.length > 0) {
+      return this.screens[0].file;
+    }
+    return null;
   }
 });

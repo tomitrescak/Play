@@ -37,11 +37,7 @@
 <template name="contentListItem">
 
   <div style="float: left; margin-right: 12px">
-    {{#if screenShot}}
-      <img src="/upload/{{screenShot}}" style="max-width: 100px; max-height:100px">
-    {{else}}
-      <img src="/images/wireframe.png" style="width: 100px">
-    {{/if}}
+    {{> screenshot }}
   </div>
   <div>
     {{#if isOwner}}
@@ -69,4 +65,12 @@
       </div>
 
     </div>
+</template>
+
+<template name="screenshot">
+  {{#if screenShot}}
+    <img src="/upload/{{screenShot}}" style="max-width: 100px; max-height:100px">
+  {{else}}
+    <img src="/images/wireframe.png" style="width: 100px">
+  {{/if}}
 </template>
